@@ -16,7 +16,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-
 public class CriarContaDTO {
 
     @Size(min = 8, max = 150, message = "Nome do usuário deve ter de 8 a 150 caracteres.")

@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
+
 //@Data --> resumine todos os itens básicos do JavaBean sem as sobrecargas de construtor
 @Setter
 @Getter
@@ -14,7 +15,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-@Document(collation = "usuarios") //substitui o @Entity
+@Document(collection = "usuarios") //substitui o @Entity
 public class Usuario {
 
     @Id

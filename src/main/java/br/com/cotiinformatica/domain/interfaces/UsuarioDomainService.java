@@ -1,4 +1,4 @@
-package br.com.cotiinformatica.domain.services;
+package br.com.cotiinformatica.domain.interfaces;
 
 import br.com.cotiinformatica.domain.models.Usuario;
 

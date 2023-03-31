@@ -1,15 +1,14 @@
 package br.com.cotiinformatica.domain.services;
 
-import java.time.Instant;
-import java.util.Optional;
-
 import br.com.cotiinformatica.domain.interfaces.UsuarioDomainService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.com.cotiinformatica.domain.models.Usuario;
 import br.com.cotiinformatica.infrastructure.components.MD5Component;
 import br.com.cotiinformatica.infrastructure.repositories.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.Optional;
 
 @Service
 public class UsuarioDomainServiceImpl implements UsuarioDomainService {

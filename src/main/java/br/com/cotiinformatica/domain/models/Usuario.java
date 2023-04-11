@@ -2,13 +2,14 @@ package br.com.cotiinformatica.domain.models;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
 
-//@Data --> resumine todos os itens básicos do JavaBean sem as sobrecargas de construtor
+//@Data --> resume todos os itens básicos do JavaBean sem as sobrecargas de construtor
 @Setter
 @Getter
 @NoArgsConstructor
@@ -26,5 +27,9 @@ public class Usuario {
     private String senha;
     private Instant dataHoraCriacao;
     private Instant dataHoraUltimaAlteracao;
+    @Transient
+    private String accessToken;
+    @Transient
+    private String novaSenha;
 
 }

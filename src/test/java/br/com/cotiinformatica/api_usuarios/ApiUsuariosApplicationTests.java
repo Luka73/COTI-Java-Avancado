@@ -1,20 +1,25 @@
 package br.com.cotiinformatica.api_usuarios;
 
-import br.com.cotiinformatica.application.dtos.CriarContaDTO;
+import br.com.cotiinformatica.application.dtos.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ApiUsuariosApplicationTests {
 
 	@Autowired
@@ -23,17 +28,13 @@ class ApiUsuariosApplicationTests {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@Test
-	public void atualizarDadosTest() throws Exception {
-		fail("Não implementado.");
-	}
+	private static String id;
+	private static String email;
+	private static String senha;
+	private static String accessToken;
 
 	@Test
-	public void autenticarTest() throws Exception {
-		fail("Não implementado.");
-	}
-
-	@Test
+	@Order(1)
 	public void criarContaTest() throws Exception {
 
 		CriarContaDTO dto = new CriarContaDTO();
@@ -43,16 +44,71 @@ class ApiUsuariosApplicationTests {
 		dto.setEmail(faker.internet().emailAddress());
 		dto.setSenha("@Teste1234");
 
-		mock.perform(
-				post("/api/usuarios/criar-conta")
-					.contentType("application/json")
-					.content(objectMapper.writeValueAsString(dto))
-				).andExpect(status().isCreated());
+		mock.perform(post("/api/usuarios/criar-conta")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(dto)))
+				.andExpect(status()
+				.isCreated());
+
+		email = dto.getEmail();
+		senha = dto.getSenha();
 	}
 
 	@Test
+	@Order(2)
+	public void autenticarTest() throws Exception {
+
+		AutenticarDTO dto = new AutenticarDTO();
+
+		dto.setEmail(email);
+		dto.setSenha(senha);
+
+		MvcResult result = mock.perform(post("/api/usuarios/autenticar")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(dto)))
+				.andExpect(status()
+				.isOk())
+				.andReturn();
+
+		String content = result.getResponse().getContentAsString();
+		AutenticarResponseDTO response = objectMapper.readValue(content, AutenticarResponseDTO.class);
+
+		id = response.getId();
+		accessToken = response.getAccessToken();
+	}
+
+	@Test
+	@Order(3)
+	public void atualizarDadosTest() throws Exception {
+
+		AtualizarDadosDTO dto = new AtualizarDadosDTO();
+		Faker faker = new Faker();
+
+		dto.setId(id);
+		dto.setNome(faker.name().fullName());
+		dto.setSenha("@Teste1234");
+
+		mock.perform(put("/api/usuarios/atualizar-dados")
+				.header("Authorization", "Bearer " + accessToken)
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(dto)))
+				.andExpect(status()
+				.isOk());
+	}
+
+	@Test
+	@Order(4)
 	public void recuperarSenhaTest() throws Exception {
-		fail("Não implementado.");
+
+		RecuperarSenhaDTO dto = new RecuperarSenhaDTO();
+		dto.setEmail(email);
+
+		mock.perform(post("/api/usuarios/recuperar-senha")
+				.contentType("application/json")
+				.content(objectMapper.writeValueAsString(dto)))
+				.andExpect(status()
+				.isOk());
 	}
 
 }
+

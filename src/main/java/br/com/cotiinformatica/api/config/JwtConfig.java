@@ -1,4 +1,4 @@
-package br.com.cotiinformatica.config;
+package br.com.cotiinformatica.api.config;
 
 import br.com.cotiinformatica.infrastructure.security.JwtAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

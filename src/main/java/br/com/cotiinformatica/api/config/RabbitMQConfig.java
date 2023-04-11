@@ -1,4 +1,4 @@
-package br.com.cotiinformatica.config;
+package br.com.cotiinformatica.api.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;

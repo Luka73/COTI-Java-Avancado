@@ -13,6 +13,6 @@ public interface UsuarioRepository extends MongoRepository<Usuario, String> {
     @Query("{email : ?0}")
     Optional<Usuario> findByEmail(String email);
 
-    @Query("{email: ?0, senha: ?1")
+    @Query("{email : ?0, senha : ?1}")
     Optional<Usuario> findByEmailAndSenha(String email, String senha);
 }

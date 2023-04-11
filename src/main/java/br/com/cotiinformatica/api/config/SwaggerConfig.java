@@ -1,4 +1,4 @@
-package br.com.cotiinformatica.config;
+package br.com.cotiinformatica.api.config;
 
 
 import io.swagger.v3.oas.models.Components;
